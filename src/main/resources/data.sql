@@ -12,30 +12,3 @@ insert into users (USERNAME, PASSWORD, ENABLED) values ('Alex', '$2y$12$VvpTyU0Y
     ('User', '$2y$12$.cS41ui.B7VvZw7WgGreDORHrhyWSBFR/hkSxlwhGMYWVt7GFqV8u', 1);
 insert into AUTHORITIES (USERNAME, AUTHORITY) values ('Alex', 'ROLE_ADMIN'), ('Otus', 'ROLE_USER'), ('badUser', 'ROLE_ADMIN'),
     ('User', 'ROLE_USER');
-
--- SPRING SECURITY ACL
-INSERT INTO acl_sid (principal, sid) VALUES
-('true', 'Alex'),
-('true', 'Otus'),
-('false', 'ROLE_ADMIN'),
-('false', 'ROLE_USER'),
-('true', 'User');
-
-INSERT INTO acl_class (class) VALUES
-('ru.otus.akutsev.books.model.Book');
-
-INSERT INTO acl_object_identity (object_id_class, object_id_identity, parent_object, owner_sid, entries_inheriting) VALUES
-(1, 1, DEFAULT, 3, 'false'),
-(1, 2, DEFAULT, 3, 'false'),
-(1, 3, DEFAULT, 3, 'false');
-
-INSERT INTO acl_entry (acl_object_identity, ace_order, sid, mask, granting, audit_success, audit_failure) VALUES
-(1, 5, 4, 2, 'false', 'true', 'true'),
-(2, 5, 4, 2, 'true', 'true', 'true'),
-(3, 5, 4, 2, 'true', 'true', 'true'),
-(1, 1, 5, 2, 'true', 'true', 'true'),
-(2, 1, 5, 2, 'true', 'true', 'true'),
-(3, 1, 5, 2, 'true', 'true', 'true'),
-(1, 1, 3, 2, 'true', 'true', 'true'),
-(2, 1, 3, 2, 'true', 'true', 'true'),
-(3, 1, 3, 2, 'true', 'true', 'true');

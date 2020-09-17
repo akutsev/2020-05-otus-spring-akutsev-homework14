@@ -11,6 +11,9 @@ import org.springframework.batch.test.JobRepositoryTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.otus.akutsev.books.dao.AuthorSqlDao;
+import ru.otus.akutsev.books.dao.BookSqlDao;
+import ru.otus.akutsev.books.dao.GenreSqlDao;
 import ru.otus.akutsev.books.service.BookService;
 
 import java.util.Collection;
@@ -28,7 +31,7 @@ public class BatchTest {
 	@Autowired
 	private JobRepositoryTestUtils jobRepositoryTestUtils;
 	@Autowired
-	private BookService bookService;
+	private BookSqlDao bookSqlDao;
 
 	@BeforeEach
 	public void cleanUp() {
@@ -37,14 +40,14 @@ public class BatchTest {
 
 	@Test
 	@DisplayName("Тест наличия всех книг из MongoDB")
-	public void whenStep2Executed_thenSuccess() {
+	public void whenBooksMigrationExecuted_thenSuccess() {
 		JobExecution jobExecution = jobLauncherTestUtils.launchStep("booksMigration");
 		Collection<StepExecution> actualStepExecutions = jobExecution.getStepExecutions();
 		ExitStatus actualExitStatus = jobExecution.getExitStatus();
 
 		assertEquals(1, actualStepExecutions.size());
 		assertEquals("COMPLETED", actualExitStatus.getExitCode());
-		assertEquals(9, bookService.getAll().size());
+		assertEquals(9, bookSqlDao.findAll().size());
 	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
+import ru.otus.akutsev.books.dao.exceptions.NoSuchBookException;
 import ru.otus.akutsev.books.model.Author;
 import ru.otus.akutsev.books.model.Book;
 import ru.otus.akutsev.books.model.Genre;
@@ -81,35 +82,4 @@ public class BookServiceTest {
 		assertEquals(newGenre, book.getGenre());
 	}
 
-	@DisplayName("Изменение полей книги - нет доступа")
-	@Test
-	@WithMockUser(username = "Otus", authorities = {"ROLE_USER"})
-	public void updateBookTest_AccessDenied() {
-		long id = 1;
-		assertThrows(AccessDeniedException.class, () -> bookService.getAById(id));
-	}
-
-	@DisplayName("Изменение полей книги - есть доступ")
-	@Test
-	@WithMockUser(username = "Otus", authorities = {"ROLE_USER"})
-	public void updateBookTest_AccessAllowed() {
-		long id = 3;
-		assertDoesNotThrow(() -> bookService.getAById(id));
-	}
-
-	@DisplayName("Удаление книги - нет доступа")
-	@Test
-	@WithMockUser(username = "Otus", authorities = {"ROLE_USER"})
-	public void deleteBookTest_AccessDenied() {
-		long id = 1;
-		assertThrows(AccessDeniedException.class, () -> bookService.deleteById(id));
-	}
-
-	@DisplayName("Удаление книги - есть доступ")
-	@Test
-	@WithMockUser(username = "Alex", authorities = {"ROLE_ADMIN"})
-	public void deleteBookTest_AccessAllowed() {
-		long id = 2;
-		assertDoesNotThrow(() -> bookService.deleteById(id));
-	}
 }

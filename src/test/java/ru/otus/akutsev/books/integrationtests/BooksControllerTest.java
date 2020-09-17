@@ -109,5 +109,11 @@ public class BooksControllerTest {
 				.andExpect(content().string(containsString("Dostoevsky")));
 	}
 
-
+	@Test
+	@DisplayName("Нет доступа на удаление книги")
+	@WithMockUser(username = "User", authorities = {"ROLE_NOTEXISTING"})
+	public void deleteBook_noAccess() throws Exception {
+		this.mockMvc.perform(post("/delete?id=1"))
+				.andExpect(status().isForbidden());
+	}
 }
